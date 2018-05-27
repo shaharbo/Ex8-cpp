@@ -157,15 +157,29 @@ string Board::draw(int n)
         }
 
           if(this->game[i][j].getNode() == 'X'){
-              red = 71;
-              green = 234;
-              blue = 247;
+             
           }
          else if (this->game[i][j].getNode() == 'O'){
-              red = 246;
-              green = 4;
-              blue = 27;
+            float r = this->rows;
+            red=green=blue=0;
+            float pr = 2; 
+            for (int i = -r; i <= r; i++) {
+                for (int j = -r; j <= r; j++){
+                float d = ((i*pr)/r)*((i*pr)/r) + (j/r)*(j/r);
+                    if (d >0.95 && d<1.08) {
+                    image[dimx*i+j].red = (red);
+                    image[dimx*i+j].green = (green);
+                    image[dimx*i+j].blue = (blue);
+                }
+                    else{
+                image[dimx*i+j].red = (112);
+                image[dimx*i+j].green = (214);
+                image[dimx*i+j].blue = (136);
+}
           }
+          }
+         }
+
           else{
               red = 255;
               green = 255;
