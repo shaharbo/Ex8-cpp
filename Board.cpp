@@ -131,16 +131,45 @@ istream &operator>>(istream &in,  Board &b)
 string Board::draw(int n)
 {
   const int dimx = n, dimy = n;
+  int size = n / this->rows;
+  int width = size / 5;
   string fileName="picture.ppm";
   ofstream img(fileName, ios::out | ios::binary);
   img << "P6" << endl << dimx <<" " << dimy << endl << 255 << endl;
   RGB image[dimx*dimy];
   for (int j = 0; j < dimy; ++j)  {  // row
     for (int i = 0; i < dimx; ++i) { // column
-      image[dimx*j+i].red = (i % 256);
-      image[dimx*j+i].green = (j % 256);
-      image[dimx*j+i].blue = ( (i*i+j*j) % 256);
+      image[dimx*j+i].red = (0);
+      image[dimx*j+i].green = (0);
+      image[dimx*j+i].blue = (0);
     }
+  }
+  int red,green,blue;  
+  for(int i=0; i < this->rows; i++){
+      for(int j=0; j< this->rows;j++){
+          if(this->game[i][j] == 'X'){
+              red = 71;
+              green = 234;
+              blue = 247;
+          }
+         else if (this->game[i][j] == 'O'){
+              red = 246;
+              green = 4;
+              blue = 27;
+          }
+          else{
+              red = 255;
+              green = 255;
+              blue = 255;
+          }
+        for(int k = i*size; k < i*size + width; k++){
+            for(int m = j*size; m<j*size+width;m++){
+                image[dimx*j+i].red = (red);
+                image[dimx*j+i].green = (green);
+                image[dimx*j+i].blue = (blue);
+            }
+        }
+      }
   }
  
   img.write(reinterpret_cast<char*>(&image), 3*dimx*dimy);
