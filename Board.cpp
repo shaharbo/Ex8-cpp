@@ -132,7 +132,7 @@ string Board::draw(int n)
 {
   const int dimx = n, dimy = n;
   int size = n / this->rows;
-  int width = size / 10;
+  int width = size / 10 ;
   string fileName="picture.ppm";
   ofstream img(fileName, ios::out | ios::binary);
   img << "P6" << endl << dimx <<" " << dimy << endl << 255 << endl;
@@ -145,8 +145,17 @@ string Board::draw(int n)
     }
   }
   int red,green,blue;  
+
   for(int i=0; i < this->rows; i++)
       for(int j=0; j< this->rows;j++){
+           for (int m = i*size+width; m < i*size+size-width; ++m){
+            for (int p = j*size+width; p < j*size+size-width; ++p) {
+                image[dimx*m+p].red = (112);
+                image[dimx*m+p].green = (214);
+                image[dimx*m+p].blue = (136);
+            }
+        }
+
           if(this->game[i][j].getNode() == 'X'){
               red = 71;
               green = 234;
@@ -162,14 +171,7 @@ string Board::draw(int n)
               green = 255;
               blue = 255;
           }
-        for (int m = i*size+width; m < i*size+size-width; ++m){
-            for (int p = j*size+width; p < j*size+size-width; ++p) {
-                image[dimx*m+p].red = (red);
-                image[dimx*m+p].green = (green);
-                image[dimx*m+p].blue = (blue);
-            }
-        }
-    }
+           }
  
   img.write(reinterpret_cast<char*>(&image), 3*dimx*dimy);
   img.close();
