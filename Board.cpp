@@ -110,38 +110,40 @@ ostream &operator<<(ostream& out, const Board& b)
 
 istream &operator>>(istream &in,  Board &b)
 {
-    Board temp;
-    in >> temp;
-    b = temp ;
+    string str;
+    in>>str;
+    int n = str.length();
+    Board temp(n);
+    b=temp;
+    for (int i=0; i<n; i++){
+        b[{0,i}] = str[i];   
+    }
+    int curr = 1;
+    while(in>>str){
+        for (int i=0; i<n; i++){
+            b[{curr, i}] = str[i];    //needs to be checked
+        }
+        curr++;
+    }
     return in;
 }
 
 string Board::draw(int n)
 {
-    //cygdrive/c/Users/shaha/.vscode/C_files/Ex8-cpp/
-    string fileName="picture.ppm";
-    ofstream img(fileName);
-    img << "p6" << endl << n << " " << n << endl << 255 << endl;
-    // for (int i=0; i<this->rows; i++)
-    // {
-    //     for (int j=0; j<this->rows; j++)
-    //     {
-    //         img << this->game[i][j] << endl;
-    //     }
-    // }
-
-    for (int i=0; i<n; ++i)
-    {
-        for (int j=0; j<n; ++j)
-        {
-            int red=j%255;
-            int green=i%255;
-            int blue=i*j%255;
-
-            img << red << " " << green << " " << blue << endl;
-        }
+  const int dimx = n, dimy = n;
+  string fileName="picture.ppm";
+  ofstream img(fileName, ios::out | ios::binary);
+  img << "P6" << endl << dimx <<" " << dimy << endl << 255 << endl;
+  RGB image[dimx*dimy];
+  for (int j = 0; j < dimy; ++j)  {  // row
+    for (int i = 0; i < dimx; ++i) { // column
+      image[dimx*j+i].red = (i % 256);
+      image[dimx*j+i].green = (j % 256);
+      image[dimx*j+i].blue = ( (i*i+j*j) % 256);
     }
-    img.close();
-    return fileName;
-    
+  }
+ 
+  img.write(reinterpret_cast<char*>(&image), 3*dimx*dimy);
+  img.close();
+  return fileName;
 }
