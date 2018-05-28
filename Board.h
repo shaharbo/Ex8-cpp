@@ -4,11 +4,11 @@
 #include <exception>
 #include <list>
 #include <fstream>
-#include <chrono>
 
 using namespace std;
 
 struct RGB {
+<<<<<<< HEAD
     uint8_t red, green, blue;
 public:
     RGB() {}
@@ -17,6 +17,14 @@ public:
 
 static int counter=1;
 
+=======
+  uint8_t red, green, blue;
+public:
+  RGB() {}
+  RGB(uint8_t red, uint8_t green, uint8_t blue): red(red), green(green), blue(blue) {}
+};
+
+>>>>>>> 90365b28e1c4cfee7b517bd13b00bb844cacabfd
 class Board
 {
 public:
