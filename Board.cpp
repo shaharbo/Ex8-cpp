@@ -206,7 +206,7 @@ string Board::draw(int n)
     int curr = 1;
     while(in>>str){
         for (int i=0; i<n; i++){
-            b[{curr, i}] = str[i];    //needs to be checked
+            b[{curr, i}] = str[i];
         }
         curr++;
     }
