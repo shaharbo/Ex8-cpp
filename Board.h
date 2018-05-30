@@ -5,6 +5,7 @@
 #include <list>
 #include <fstream>
 #include <ctime>
+#include <math.h>
 
 using namespace std;
 
