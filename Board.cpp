@@ -117,48 +117,54 @@ ostream &operator<<(ostream& out, const Board& b)
 }
 string Board::draw(int n)
 {
-        const int dimX = n, dimY = n;
-        int size = n / this->rows;
-        int width = size / 8 ;
-        string fileName="picture"+to_string(counter)+".ppm";
-        counter++;
-        ofstream img(fileName, ios::out | ios::binary);
-        img << "P6" << endl << dimX <<" " << dimY << endl << 255 << endl;
-        RGB image[dimX*dimY];
-        for (int j = 0; j < dimY; ++j)  {  // row
-            for (int i = 0; i < dimX; ++i) { // column
-                image[dimX*j+i].red = (0);
-                image[dimX*j+i].green = (0);
-                image[dimX*j+i].blue = (0);
-            }
+    time_t name;
+    struct tm* timeinfo;
+    char buffer[80];
+    time(&name);
+    timeinfo = localtime(&name);
+    strftime(buffer,sizeof(buffer),"%d-%m-%Y %I:%M:%S",timeinfo);
+    string str(buffer);
+
+    const int dimX = n, dimY = n;
+    int size = n / this->rows;
+    int width = size / 8 ;
+    string fileName="pic:"+str+".ppm";
+    ofstream img(fileName, ios::out | ios::binary);
+    img << "P6" << endl << dimX <<" " << dimY << endl << 255 << endl;
+    RGB image[dimX*dimY];
+    for (int j = 0; j < dimY; ++j)  {  // row
+        for (int i = 0; i < dimX; ++i) { // column
+            image[dimX*j+i].red = (0);
+            image[dimX*j+i].green = (0);
+            image[dimX*j+i].blue = (0);
         }
-        int red,green,blue;
+    }
+    int red,green,blue;
 
-        for(int i=0; i < this->rows; i++)
-            for(int j=0; j< this->rows;j++){
-                if(this->game[i][j].getNode() == 'X'){
-                    red =  249;
-                    green = 107;
-                    blue = 178;
-                }
+    for(int i=0; i < this->rows; i++)
+        for(int j=0; j< this->rows;j++){
+            if(this->game[i][j].getNode() == 'X'){
+                red =  249;
+                green = 107;
+                blue = 178;
+            }
 
-                else if (this->game[i][j].getNode() == 'O'){
-                    red =  65;
-                    green = 132;
-                    blue = 241;
-                }
-
-                else{
-                    red = green = blue = 255;
-                }
-                for (int m = i*size+width; m < i*size+size-width; ++m){
-                    for (int p = j*size+width; p < j*size+size-width; ++p) {
-                        image[dimX*m+p].red = (red);
-                        image[dimX*m+p].green = (green);
-                        image[dimX*m+p].blue = (blue);
-                    }
+            else if (this->game[i][j].getNode() == 'O'){
+                red =  65;
+                green = 132;
+                blue = 241;
+            }
+            else{
+                red = green = blue = 255;
+            }
+            for (int m = i*size+width; m < i*size+size-width; ++m){
+                for (int p = j*size+width; p < j*size+size-width; ++p) {
+                    image[dimX*m+p].red = (red);
+                    image[dimX*m+p].green = (green);
+                    image[dimX*m+p].blue = (blue);
                 }
             }
+    }
 
         img.write(reinterpret_cast<char*>(&image), 3*dimX*dimY);
         img.close();
