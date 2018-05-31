@@ -152,48 +152,54 @@ string Board::draw(int n)
             }
     }
 
-    int red,green,blue;
     for(int i=0; i < this->rows; i++)
         for(int j=0; j< this->rows;j++){
             if(this->game[i][j].getNode() == 'X'){
-                for(int m = 15; m<size-16; m++){
-                    image[dimX*size*i+dimX*m+j*size+m].red=(0);
-                    image[dimX*size*i+dimX*m+j*size+m].green=(0);
-                    image[dimX*size*i+dimX*m+j*size+m].blue=(0);
-                    image[(dimX*size*i+dimX*m+size)+j*size-m].red=(0);
-                    image[(dimX*size*i+dimX*m+size)+j*size-m].green=(0);
-                    image[(dimX*size*i+dimX*m+size)+j*size-m].blue=(0);
-                }
+                drawX(dimX,i,j,image);
             }
 
             else if (this->game[i][j].getNode() == 'O'){
-                int a= dimX*size*i+j*size;
-                int b=a+dimX*(size/2)+(size/2);
-                int radius=size/2.5;
-                int is = i*size, js=j*size;
-                int im=is+size/2, jm=js+size/2;
-                for (int k = is; k <((i+1)*size);k++) {
-                    for (int l = js; l < ((j+1)*size); l++) {
-                        if(abs((k-im)*(k-im)+(l-jm)*(l-jm)-radius*radius)<= pow((size/radius),6)){
-                            image[dimX*k+l].red=(0);
-                            image[dimX*k+l].green=(0);
-                            image[dimX*k+l].blue=(0);
-                        }
-                    }
-                }
+                drawCircle(dimX,i,j,image);
             }
-            else {
-                red = green = blue = 255;
-            }
-
+        }
+    img.write(reinterpret_cast<char*>(&image), 3*dimX*dimY);
+    img.close();
+    return fileName;
     }
 
-        img.write(reinterpret_cast<char*>(&image), 3*dimX*dimY);
-        img.close();
-        return fileName;
+void Board::drawX(int dimX,int i, int j, RGB *image)
+{
+    int size = dimX / this->rows;
+    for(int m = 15; m<size-16; m++){
+        image[dimX*size*i+dimX*m+j*size+m].red=(0);
+        image[dimX*size*i+dimX*m+j*size+m].green=(0);
+        image[dimX*size*i+dimX*m+j*size+m].blue=(0);
+        image[(dimX*size*i+dimX*m+size)+j*size-m].red=(0);
+        image[(dimX*size*i+dimX*m+size)+j*size-m].green=(0);
+        image[(dimX*size*i+dimX*m+size)+j*size-m].blue=(0);
     }
+}
 
-    istream &operator>>(istream &in,  Board &b)
+void Board::drawCircle(int dimX, int i, int j, RGB* image)
+{
+    int size = dimX / this->rows;
+    int a= dimX*size*i+j*size;
+    int b=a+dimX*(size/2)+(size/2);
+    int radius=size/2.5;
+    int is = i*size, js=j*size;
+    int im=is+size/2, jm=js+size/2;
+    for (int k = is; k <((i+1)*size);k++) {
+        for (int l = js; l < ((j+1)*size); l++) {
+            if(abs((k-im)*(k-im)+(l-jm)*(l-jm)-radius*radius)<= pow((size/radius),5)){
+                image[dimX*k+l].red=(0);
+                image[dimX*k+l].green=(0);
+                image[dimX*k+l].blue=(0);
+            }
+        }
+    }
+}
+
+istream &operator>>(istream &in,  Board &b)
 {
     string str;
     in>>str;
@@ -201,7 +207,7 @@ string Board::draw(int n)
     Board temp(n);
     b=temp;
     for (int i=0; i<n; i++){
-        b[{0,i}] = str[i];   
+        b[{0,i}] = str[i];
     }
     int curr = 1;
     while(in>>str){
