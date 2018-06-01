@@ -180,6 +180,10 @@ void Board::drawX(int dimX,int i, int j, RGB *image)
     }
 }
 
+int Board::calc(int x,int y)  {
+    return sqrt(pow(x,2)+pow(y,2));
+}
+
 void Board::drawCircle(int dimX, int i, int j, RGB* image)
 {
     int size = dimX / this->rows;
@@ -190,7 +194,7 @@ void Board::drawCircle(int dimX, int i, int j, RGB* image)
     int im=is+size/2, jm=js+size/2;
     for (int k = is; k <((i+1)*size);k++) {
         for (int l = js; l < ((j+1)*size); l++) {
-            if(abs((k-im)*(k-im)+(l-jm)*(l-jm)-radius*radius)<= pow((size/radius),5)){
+            if(abs((k-im)*(k-im)+(l-jm)*(l-jm)-radius*radius)<= pow((size/radius),7)){
                 image[dimX*k+l].red=(0);
                 image[dimX*k+l].green=(0);
                 image[dimX*k+l].blue=(0);

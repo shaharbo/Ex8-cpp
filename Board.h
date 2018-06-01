@@ -30,6 +30,7 @@ public:
     Board& operator=(const Board& b);
     Board& operator=(char c);
     void drawX(int dimX,int i, int j, RGB* image);
+    int calc(int x, int y);
     void drawCircle(int dimX, int i, int j, RGB* image);
     friend istream &operator>>(istream &in,Board &b);
     friend ostream &operator<<(ostream &out, const Board &b);

@@ -17,4 +17,4 @@ clean:
 
 buildAndRun: all main.o
 	$(CXX) $(CXXFLAGS) Board.o Node.o main.o
-	./a.out < board6.txt
+	./a.out < board3.txt
