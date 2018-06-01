@@ -180,10 +180,6 @@ void Board::drawX(int dimX,int i, int j, RGB *image)
     }
 }
 
-int Board::calc(int x,int y)  {
-    return sqrt(pow(x,2)+pow(y,2));
-}
-
 void Board::drawCircle(int dimX, int i, int j, RGB* image)
 {
     int size = dimX / this->rows;
