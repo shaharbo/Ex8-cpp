@@ -117,21 +117,24 @@ ostream &operator<<(ostream& out, const Board& b)
 }
 string Board::draw(int n)
 {
-    time_t name;
+    /*time_t name;
     struct tm* timeinfo;
     char buffer[80];
     time(&name);
     timeinfo = localtime(&name);
     strftime(buffer,sizeof(buffer),"%d-%m-%Y-%I:%M:%S",timeinfo);
-    string str(buffer);
+    string str(buffer);*/
 
     const int dimX = n, dimY = n;
     int size = n / this->rows;
     int width = size / 22 ;
-    string fileName="pic:"+str+".ppm";
+
+    string fileName="pic"+to_string(this->rows)+".ppm";
+
     ofstream img(fileName, ios::out | ios::binary);
     img << "P6" << endl << dimX <<" " << dimY << endl << 255 << endl;
     RGB image[dimX*dimY];
+
     //background
     for (int j = 0; j < dimY; ++j)  {  // row
         for (int i = 0; i < dimX; ++i) { // column
